@@ -1,11 +1,108 @@
-import { Box } from "@chakra-ui/react";
+import { useEffect, useRef } from 'react';
+import { Box, Flex, Heading } from "@chakra-ui/react";
+import Chart from 'chart.js/auto';
 
-export function App(): JSX.Element{
+export function App(): JSX.Element {
+  const chartRef = useRef<HTMLCanvasElement>(null);
+  const chartInstance = useRef<Chart<"bar", number[], string> | undefined>();
+  const chartDonutRef = useRef<HTMLCanvasElement>(null);
+  const chartDonutInstance = useRef<Chart<"doughnut", number[], string> | undefined>();
+
+  useEffect(() => {
+    const ctx = chartRef.current?.getContext('2d');
+
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
+
+    chartInstance.current = new Chart(ctx as CanvasRenderingContext2D, {
+      type: 'bar',
+      data: {
+        labels: ['Label 1', 'Label 2', 'Label 3'],
+        datasets: [{
+          label: 'Exemplo de Gráfico de Barras',
+          data: [10, 20, 15],
+          backgroundColor: ['red', 'blue', 'green'],
+        }],
+      },
+    });
+
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const ctx = chartDonutRef.current?.getContext('2d');
+
+    if (chartDonutInstance.current) {
+      chartDonutInstance.current.destroy();
+    }
+
+    chartDonutInstance.current = new Chart(ctx as CanvasRenderingContext2D, {
+      type: 'doughnut',
+      data: {
+        labels: ['Red', 'Blue', 'Yellow'],
+        datasets: [{
+          label: 'My First Dataset',
+          data: [300, 50, 100],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)',
+          ],
+          hoverOffset: 4,
+        }],
+      },
+    });
+
+    return () => {
+      if (chartDonutInstance.current) {
+        chartDonutInstance.current.destroy();
+      }
+    };
+  }, []);
+
   return (
-   <>
-    <Box>
-      Gráficos no Java Script
+    <Box w={'100%'} h={'vh'}>
+      <Box
+        w={'100%'}
+        textAlign={'center'}
+        p={'10px'}
+      >
+        <Heading
+          as={'h1'}
+          fontSize={'25px'}
+          fontWeight={'bold'}>
+          Gráficos no Java Script</Heading>
+      </Box>
+      <Flex
+        flexDir={'row'}
+        justify={'space-around'}
+      >
+        <Box
+          bg={'white'}
+          w={'500px'}
+          h={'250px'}
+          boxShadow={'4px 2px 6px 4px rgba(0, 0, 0, 0.5)'}
+          p={'6'}
+          m={'6'}
+        >
+          <canvas ref={chartRef} />
+        </Box>
+        <Box
+          bg={'white'}
+          w={'500px'}
+          h={'auto'}
+          boxShadow={'4px 2px 6px 4px rgba(0, 0, 0, 0.5)'}
+          p={'6'}
+          m={'6'}
+        >
+          <canvas ref={chartDonutRef} />
+        </Box>
+      </Flex>
     </Box>
-   </>
   );
 }
