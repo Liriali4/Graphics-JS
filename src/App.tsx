@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Box, Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import Chart from 'chart.js/auto';
 
 export function App(): JSX.Element {
@@ -23,7 +23,29 @@ export function App(): JSX.Element {
           label: 'Exemplo de Gráfico de Barras',
           data: [10, 20, 15],
           backgroundColor: ['red', 'blue', 'green'],
+
         }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        scales: {
+          x: {
+            beginAtZero: true,
+          },
+          y: {
+            beginAtZero: true,
+          },
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: {
+              boxWidth: 0,
+            },
+          },
+        },
       },
     });
 
@@ -46,7 +68,6 @@ export function App(): JSX.Element {
       data: {
         labels: ['Red', 'Blue', 'Yellow'],
         datasets: [{
-          label: 'My First Dataset',
           data: [300, 50, 100],
           backgroundColor: [
             'rgb(255, 99, 132)',
@@ -55,6 +76,15 @@ export function App(): JSX.Element {
           ],
           hoverOffset: 4,
         }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+          },
+        },
       },
     });
 
@@ -74,7 +104,6 @@ export function App(): JSX.Element {
       >
         <Heading
           as={'h1'}
-          fontSize={'25px'}
           fontWeight={'bold'}>
           Gráficos no Java Script</Heading>
       </Box>
@@ -84,22 +113,24 @@ export function App(): JSX.Element {
       >
         <Box
           bg={'white'}
-          w={'500px'}
-          h={'250px'}
+          w={'650px'}
+          h={'400px'}
           boxShadow={'4px 2px 6px 4px rgba(0, 0, 0, 0.5)'}
           p={'6'}
           m={'6'}
         >
+          {/*<Text textAlign={'center'} fontSize={'12px'} color={'#807c7c'}>Exemplo de Gráfico de Barras</Text>*/}
           <canvas ref={chartRef} />
         </Box>
         <Box
           bg={'white'}
-          w={'500px'}
-          h={'auto'}
+          w={'650px'}
+          h={'400px'}
           boxShadow={'4px 2px 6px 4px rgba(0, 0, 0, 0.5)'}
           p={'6'}
           m={'6'}
         >
+          {/*<Text textAlign={'center'} fontSize={'12px'} color={'#807c7c'}>Exemplo de Gráfico de Doughnut</Text>*/}
           <canvas ref={chartDonutRef} />
         </Box>
       </Flex>
